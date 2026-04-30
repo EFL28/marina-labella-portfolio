@@ -1,0 +1,27 @@
+---
+import ProjectGrid from '@components/portfolio/ProjectGrid.astro';
+import { getProjectsBySection } from '../../data/projects';
+import Layout from '../../layouts/Layout.astro';
+
+const animationProjects = getProjectsBySection('animation');
+---
+
+<Layout
+	title="Animation - Marina Labella"
+	description="Animation projects by Marina Labella."
+	currentPath="/animation"
+>
+	<section class="page">
+		<div class="hero hero--compact">
+			<div>
+				<p class="eyebrow">Portfolio</p>
+				<h1>Animation</h1>
+				<p class="lede">
+					Moving image projects, explainers and animated stories prepared with placeholder panels for
+					the final videos and stills.
+				</p>
+			</div>
+		</div>
+		<ProjectGrid projects={animationProjects} />
+	</section>
+</Layout>

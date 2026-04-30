@@ -1,0 +1,59 @@
+---
+import "@styles/layout.css";
+
+import Navbar from "./Navbar.astro";
+import SocialLinks from "./SocialLinks.astro";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<header class="portfolio-header" data-portfolio-header>
+  <div class="portfolio-header__bar">
+    <a class="portfolio-header__logo" href="/" aria-label="Marina Labella home">
+      <img
+        src="/marina-logo.gif"
+        alt="Marina Labella"
+        width="120"
+        height="120"
+      />
+    </a>
+
+    <button
+      class="portfolio-header__menu-button"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="portfolio-header-menu"
+      data-menu-button
+    >
+      <span></span>
+      <span></span>
+    </button>
+
+    <SocialLinks className="portfolio-header__socials--desktop" />
+  </div>
+
+  <div class="portfolio-header__menu" id="portfolio-header-menu" data-menu>
+    <Navbar currentPath={currentPath} />
+    <SocialLinks className="portfolio-header__socials--mobile" />
+  </div>
+</header>
+
+<script>
+  const headers = document.querySelectorAll('[data-portfolio-header]');
+
+  headers.forEach((header) => {
+    const button = header.querySelector('[data-menu-button]');
+
+    button?.addEventListener('click', () => {
+      const isOpen = header.getAttribute('data-menu-open') === 'true';
+      header.setAttribute('data-menu-open', String(!isOpen));
+      button.setAttribute('aria-expanded', String(!isOpen));
+      button.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+    });
+  });
+</script>

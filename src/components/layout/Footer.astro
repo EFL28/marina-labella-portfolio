@@ -1,0 +1,24 @@
+---
+import "@styles/footer.css";
+
+import SocialLinks from "./SocialLinks.astro";
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <a class="site-footer__brand" href="/">MARINA LABELLA</a>
+
+    <div class="site-footer__content">
+      <div class="site-footer__tagline">
+        <span>ILLUSTRATE &#10022; ANIMATE &#10041;</span>
+        <span>BRING YOUR PROJECT TO LIFE</span>
+      </div>
+    </div>
+
+    <SocialLinks className="site-footer__socials" showEmail={false} />
+
+    <p class="site-footer__copyright">
+      &copy; 2026 Marina Labella. All rights reserved.
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,27 @@
+---
+import ProjectGrid from '@components/portfolio/ProjectGrid.astro';
+import { getProjectsBySection } from '../../data/projects';
+import Layout from '../../layouts/Layout.astro';
+
+const illustrationProjects = getProjectsBySection('illustration');
+---
+
+<Layout
+	title="Illustration - Marina Labella"
+	description="Illustration projects by Marina Labella."
+	currentPath="/illustration"
+>
+	<section class="page">
+		<div class="hero hero--compact">
+			<div>
+				<p class="eyebrow">Portfolio</p>
+				<h1>Illustration</h1>
+				<p class="lede">
+					Editorial work, series, books and visual stories collected in the same route structure as
+					the current portfolio.
+				</p>
+			</div>
+		</div>
+		<ProjectGrid projects={illustrationProjects} />
+	</section>
+</Layout>

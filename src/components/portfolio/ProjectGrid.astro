@@ -1,0 +1,15 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import type { Project } from '../../data/projects';
+
+type Props = {
+	projects: Project[];
+	priorityCount?: number;
+};
+
+const { projects, priorityCount = 4 } = Astro.props;
+---
+
+<div class="project-grid">
+	{projects.map((project, index) => <ProjectCard project={project} priority={index < priorityCount} />)}
+</div>

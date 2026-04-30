@@ -1,0 +1,45 @@
+---
+import { getProjectsBySection } from '../../data/projects';
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+	return getProjectsBySection('illustration').map((project) => ({
+		params: { slug: project.slug },
+		props: { project },
+	}));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout
+	title={`${project.title} - Marina Labella`}
+	description={project.summary}
+	currentPath={`/illustration/${project.slug}`}
+>
+	<section class="page">
+		<div class="project-hero">
+			<div>
+				<p class="eyebrow">Illustration</p>
+				<h1>{project.title}</h1>
+				<p class="lede">{project.summary}</p>
+			</div>
+			<div class="project-meta">
+				<p><b>Category</b>{project.category}</p>
+				{project.client && <p><b>Client</b>{project.client}</p>}
+				{project.year && <p><b>Year</b>{project.year}</p>}
+				<p><a class="text-link" href="/illustration">Back to illustration</a></p>
+			</div>
+		</div>
+
+		<div class="detail-grid">
+			{
+				project.mediaPlaceholders.map((media) => (
+					<div class:list={['detail-media', `tone-${media.tone}`]} style={`aspect-ratio: ${media.aspectRatio}`}>
+						<span>{media.label}</span>
+					</div>
+				))
+			}
+		</div>
+	</section>
+</Layout>

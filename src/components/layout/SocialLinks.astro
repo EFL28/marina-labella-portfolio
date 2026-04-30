@@ -1,0 +1,46 @@
+---
+interface Props {
+  className?: string;
+  showEmail?: boolean;
+}
+
+const { className = "", showEmail = true } = Astro.props;
+---
+
+<div
+  class:list={["portfolio-header__socials", className]}
+  aria-label="Social links"
+>
+  {
+    showEmail && (
+      <a
+        class="portfolio-header__social-link"
+        href="mailto:marinaf.labella@gmail.com"
+        aria-label="Email"
+      >
+        <img src="/socials/email.svg" alt="" width="19" height="19" />
+      </a>
+    )
+  }
+  <a
+    class="portfolio-header__social-link"
+    href="https://www.instagram.com/_marinalabella"
+    aria-label="Instagram"
+  >
+    <img src="/socials/instagram.svg" alt="" width="19" height="19" />
+  </a>
+  <a
+    class="portfolio-header__social-link"
+    href="https://www.linkedin.com/in/marinalabella/"
+    aria-label="LinkedIn"
+  >
+    <img src="/socials/linkedin.svg" alt="" width="19" height="19" />
+  </a>
+  <a
+    class="portfolio-header__social-link"
+    href="https://www.behance.net/marinalabella"
+    aria-label="Behance"
+  >
+    <img src="/socials/behance.svg" alt="" width="19" height="19" />
+  </a>
+</div>

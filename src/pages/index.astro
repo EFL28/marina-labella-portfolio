@@ -1,11 +1,53 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import AnimationPreview from "@components/home/AnimationPreview.astro";
+import ProjectGrid from "@components/portfolio/ProjectGrid.astro";
+import { getProjectsBySection } from "../data/projects";
+import Layout from "../layouts/Layout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const illustrationProjects = getProjectsBySection("illustration").slice(0, 12);
+const animationProjects = getProjectsBySection("animation");
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Marina Labella - Illustration & Animation"
+  description="Selected illustration and animation work by Marina Labella."
+  currentPath="/"
+>
+  <section class="page home-page">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Illustration & animation</p>
+        <h1>Marina Labella</h1>
+        <p class="lede">
+          Playful editorial illustration, characterful visual stories and
+          animation work with a warm, graphic voice.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2>Selected Illustrations</h2>
+    </div>
+
+    <ProjectGrid projects={illustrationProjects} />
+
+    <div class="project-grid-actions">
+      <a class="button" href="/illustration">SEE MORE</a>
+    </div>
+
+    <div
+      class="discipline-strip"
+      aria-label="Illustration, animation, editorial, motion design"
+    >
+      <span>ILLUSTRATION</span>
+      <span class="discipline-strip__symbol" aria-hidden="true">&#10041;</span>
+      <span>ANIMATION</span>
+      <span class="discipline-strip__symbol" aria-hidden="true">&#10022;</span>
+      <span>EDITORIAL</span>
+      <span class="discipline-strip__symbol" aria-hidden="true">&#9679;</span>
+      <span>MOTION DESIGN</span>
+    </div>
+
+    <AnimationPreview projects={animationProjects} />
+  </section>
 </Layout>

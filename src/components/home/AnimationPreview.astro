@@ -1,0 +1,48 @@
+---
+import "@styles/animation-preview.css";
+
+import type { Project } from "../../data/projects";
+
+type Props = {
+  projects: Project[];
+};
+
+const { projects } = Astro.props;
+const featuredProject = projects[0];
+const carouselProjects = projects.slice(1, 11);
+const carouselLoop = [...carouselProjects, ...carouselProjects];
+---
+
+{
+  featuredProject && (
+    <section class="animation-preview" aria-labelledby="animation-preview-title">
+      <h2 class="animation-preview__title" id="animation-preview-title">
+        ANIMATION
+      </h2>
+
+      <a
+        class="animation-preview__player"
+        href={`/animation/${featuredProject.slug}`}
+        aria-label={`View ${featuredProject.title}`}
+      >
+        <div class="animation-preview__frame">
+          <span>{featuredProject.title}</span>
+        </div>
+      </a>
+
+      <div class="animation-preview__carousel" aria-label="Animation projects">
+        <div class="animation-preview__track">
+          {carouselLoop.map((project) => (
+            <a
+              class="animation-preview__thumb"
+              href={`/animation/${project.slug}`}
+              aria-label={`View ${project.title}`}
+            >
+              <span>{project.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
