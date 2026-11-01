@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# migration snapshots (Framer inventory, screenshots)
+migration/
