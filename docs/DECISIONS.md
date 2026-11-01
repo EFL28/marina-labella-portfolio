@@ -27,7 +27,7 @@ Why: control and zero dependencies. Astro's scoped styles plus custom properties
 **Hosting on Cloudflare (free tier).**
 Why: unlimited bandwidth on the free tier (important for an image portfolio), deploy hooks for Sanity, and commercial use allowed.
 
-### ADR-005 · 2026-10-31 · Accepted
+### ADR-005 · 2026-10-31 · Partly superseded by ADR-014 (contact form)
 
 **English only, contact by email and socials (no form), videos embedded from Vimeo/YouTube.**
 Why: it matches the current site and avoids form backends and video hosting costs.
@@ -70,3 +70,8 @@ Why: simplicity and a fully static site. Block components stay data-driven (prop
 
 **Spec-driven workflow, with Elian coding and the agent guiding.**
 Why: everything stays documented, and Elian learns Astro by building. Specs live in `docs/specs/`, decisions here, and progress/learnings in `docs/LOG.md`.
+
+### ADR-014 · 2026-11-01 · Accepted
+
+**A contact form only on the About page. Everywhere else: email + socials.**
+Why: the Phase 1 inventory showed the current site has a form on several pages, and Elian wants to keep it on About only. The backend gets chosen in the About page's spec, with the constraints free and no lock-in. Candidates: a Cloudflare Pages Function / Worker that sends the email, or a free form service (e.g. Web3Forms). Spam protection has to be included (honeypot, or Cloudflare Turnstile, which is free).

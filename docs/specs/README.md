@@ -24,4 +24,4 @@ Elian writes most of the code and is learning Astro along the way. Each task is 
 
 | #   | Spec                                        | Phase | Status |
 | --- | ------------------------------------------- | ----- | ------ |
-| 001 | [Framer inventory](001-framer-inventory.md) | 1     | Draft  |
+| 001 | [Framer inventory](001-framer-inventory.md) | 1     | Done   |

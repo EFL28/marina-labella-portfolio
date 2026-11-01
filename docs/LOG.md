@@ -4,6 +4,28 @@ Progress and learnings, newest first. One entry per work session or finished spe
 
 ---
 
+## 2026-11-01: Spec 001, Framer inventory ✅
+
+**Done**
+
+- `scripts/framer-export/`: `pnpm inventory` (65 pages → `migration/inventory.json` + `summary.md`) and `pnpm inventory:screenshots` (18 full-page screenshots). Dev-only, no new runtime deps (`node-html-parser` is a dev dependency).
+- Findings are in `docs/PLAN.md` → Phase 1 findings. Highlights: 98% of images without alt text, 3 projects missing from the gallery grid, and **a contact form we didn't know about** (→ ADR-014: keep it on About only).
+- Elian's review corrected two findings: PREVIOUS works in the browser (it's only broken in the server HTML), and the "Behance" icon is really Vimeo (I was misled by a Framer layer name).
+
+**Learned**
+
+- Framer server-renders all content, but it renders **every breakpoint** as `.ssr-variant` + `hidden-<hash>`. To keep the desktop version, compare against the breakpoint list in `#main[data-framer-hydrate-v2]`.
+- Node 24 runs `.ts` files directly (type stripping): imports must use `.ts` extensions and `import type`.
+- Chrome can be driven without Playwright: `--headless=new --remote-debugging-port` plus Node's built-in `WebSocket` (DevTools protocol). For full-page shots, set the viewport height to `scrollHeight`, otherwise `min-height: 100vh` leaves a gap.
+- **Verify findings the way a visitor would before reporting them.** Raw HTML can differ from what the browser shows (JS fixes links), and Framer layer names can be misleading.
+- The PC rebooted mid-session: nothing was lost, because everything was on disk. Commit more often.
+
+**Next**
+
+- 👤 Elian: skim `migration/summary.md` and the screenshots.
+- Ask Marina: the 3 illustrations missing from the gallery, and the "Indentity" typo.
+- Spec 002: design system (Phase 2). This is where Elian starts writing Astro.
+
 ## 2026-10-31: Project base
 
 **Done**

@@ -14,13 +14,16 @@
 		"astro": "astro",
 		"check": "astro check",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"inventory": "node scripts/framer-export/index.ts",
+		"inventory:screenshots": "node scripts/framer-export/screenshots.ts"
 	},
 	"dependencies": {
 		"astro": "^7.4.4"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.12",
+		"node-html-parser": "^9.0.5",
 		"prettier": "^3.9.10",
 		"prettier-plugin-astro": "^1.1.2",
 		"typescript": "^6.0.3"

@@ -24,27 +24,42 @@ Living document. Tick items as they land and update this file in the same change
 - [x] Remove the starter boilerplate and replace `README.md`
 - [ ] Replace the Astro favicon with Marina's
 
-## Phase 1: Inventory and export from Framer
-
-**Goal:** a complete local snapshot of the current site's **text and structure**, which feeds design reference, content import and redirects.
-
-- [ ] Script `scripts/framer-export/` (dev-only, never shipped):
-  - crawl `sitemap.xml` (~70 URLs)
-  - per page: URL, title, meta description, OG image, headings, body text, links, image URLs, Vimeo/YouTube/external video links, prev/next links
-  - output to `migration/inventory.json`
-- [ ] Images: **don't download them.** Record each `framerusercontent.com` URL in the inventory with its page and position. During development we use those URLs (or placeholders), and Marina provides the originals for the real import
-- [ ] Full-page screenshots of every page type (desktop + mobile) into `migration/screenshots/` for visual reference
-- [ ] Review the inventory and note the quirks found so far:
-  - `/services/aftertone-soda` shows **"Animalium Beers"** (slug and title don't match)
-  - `love-vs.-time` contains a dot
-  - projects that live in two sections (`/illustration/glow-gang` ↔ `/services/glow-gang-branding`)
-  - empty sections on case studies ("Rejected Alternatives" / "Final Design" headings with only images)
-  - animation projects that link out (e.g. ARTE) instead of embedding a video
-- [ ] Find the URL and structure of "see more" on `/illustration`, and of live drawing
+## Phase 1: Inventory and export from Framer ✅
 
 **Spec:** [001: Framer inventory](specs/001-framer-inventory.md)
 
-**Deliverable:** `inventory.json` + screenshots, plus a short findings list added to this file. `migration/` is gitignored.
+- [x] `pnpm inventory`: crawls the sitemap → `migration/inventory.json` + `migration/summary.md` (HTML cached in `migration/cache/`, `--refresh` to re-download)
+- [x] Images not downloaded: their Framer URLs are recorded (ADR-011)
+- [x] `pnpm inventory:screenshots`: full-page desktop + mobile screenshots of one page per type → `migration/screenshots/`
+- [x] Findings reviewed (below)
+- [ ] 👤 Elian skims `migration/summary.md`
+
+### Phase 1 findings
+
+**Content counts:** 65 pages: 36 illustration projects, 14 animation projects, 6 case studies (`/services/*`), 4 service pages (3 landings + `/science-communication/science-illustration`), plus home, about, `/illustration`, `/animation` and `/services`.
+
+**Structure**
+
+- Project pages (Framer CMS template): section label (h1, e.g. "ILLUSTRATION PROJECT"), title (h2), a "Client: X" **or** category label ("Personal Project"), 1–3 paragraphs, an image grid, and PREVIOUS / all projects / NEXT.
+- Animation projects: a **YouTube** embed (13 of 14) and often an external link to the client's site (ARTE, CLICCS, ESiWACE…). `roadtrip` has no video, only 3 GIFs. No Vimeo embeds anywhere (Vimeo only appears as a social link).
+- Case studies have more structure: an overview, a concept and a bullet list, plus "Rejected alternatives" / "Final design" sections that are images only.
+- Service landings are long and bespoke: intro + list, project overview cards, "building blocks" (pillars), "Let's talk!" CTA. This confirms the page-builder approach (ADR-009).
+- Home: hero, 12 featured illustrations, "See more" → `/illustration`, an animation section, services cards, **Live drawing** (a card with photos from WindEnergy Hamburg 2026, **no page of its own**), "How can I help you?" tag cloud, about, closing CTA.
+
+**Issues on the live site (don't reproduce them)**
+
+- 🟡 **"PREVIOUS" on the 6 case studies is broken in the server HTML** (`../illustration/:w0K4L5pzB`, an unresolved Framer CMS variable). Framer's JavaScript fixes it in the browser, so visitors don't notice (checked by Elian), but crawlers and no-JS clients get a broken link. Our own prev/next won't have this problem.
+- 🟠 **Alt text missing on 546 of 556 images.** It has to be written during the import (Phase 4), and the schema will require it.
+- 🟡 3 illustration projects **have pages but aren't in the `/illustration` grid** (33 tiles), so they can only be reached through prev/next of other projects: `depression`, `love-vs.-time`, `the-animal-in-me`. Ask Marina whether leaving them out of the gallery is intentional.
+- 🟡 Typo "Visual **Indentity**": a tag pill in the home's "How can I help you?" section, and in the service tags on the service pages (e.g. `/branding-packaging`).
+- 🟡 `/services/aftertone-soda` is titled "Animalium Beers" (ADR-010: kept for now). `love-vs.-time` has a dot in the slug.
+- 🟡 `glow-gang` appears both as `/illustration/glow-gang` and `/services/glow-gang-branding`.
+- 🟡 Page titles are inconsistent ("Marina Labella - Animation Portfolio" on service pages).
+
+**⚠️ Conflicts with our decisions (ask Marina)**
+
+- ~~Contact form~~ → resolved by **ADR-014**: the form stays **only on About**. Home and service pages get email + socials.
+- ~~Behance icon~~ → false alarm: a Framer layer _named_ "Behance…" is actually the Vimeo icon. Socials are Instagram, LinkedIn and Vimeo.
 
 ## Phase 2: Design system
 
@@ -138,6 +153,7 @@ Summary only. The source of truth, with the reasoning, is [`DECISIONS.md`](DECIS
 | 3   | "Animalium Beers" at `/services/aftertone-soda` | ✅ Keep it for now. Marina may rename titles/URLs later (add a 301 when she does) |
 | 4   | Draft previews (see below)                      | ✅ A (publish and check) now. Evaluate B (live preview) after launch              |
 | 5   | Images                                          | ✅ Marina keeps the originals. Dev uses Framer URLs or placeholders               |
+| 6   | Contact form                                    | ✅ Only on About (ADR-014). Backend chosen in its spec                            |
 
 **Decision 4: previews.** With a static site, Marina publishes in Sanity, the site rebuilds (~1–2 min), and only then can she see the change on the real website. The alternatives are:
 

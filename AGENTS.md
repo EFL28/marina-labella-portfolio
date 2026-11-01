@@ -47,7 +47,7 @@ Read these before starting any work, and keep them up to date in the same change
 | Motion          | CSS transitions/animations, scroll-driven animations, **Astro View Transitions** (`<ClientRouter />`) | No GSAP/Motion/etc. unless explicitly approved                                                                                                                                                                                                                                      |
 | Video           | **Vimeo / YouTube embeds**, loaded lazily (facade: thumbnail first, iframe on click)                  | Never store video files in the repo or in Sanity                                                                                                                                                                                                                                    |
 | Hosting         | **Cloudflare** (Pages or Workers static assets)                                                       | Free tier, unlimited bandwidth. Rebuilds are triggered by a Sanity webhook to a deploy hook                                                                                                                                                                                         |
-| Contact         | `mailto:` link plus social links                                                                      | **No contact form**                                                                                                                                                                                                                                                                 |
+| Contact         | `mailto:` link plus social links. **A contact form only on `/about-contact`** (ADR-014)               | Form backend must be free and spam-protected. Decided in its spec                                                                                                                                                                                                                   |
 | Languages       | **English only**                                                                                      | Some project titles are Spanish/Catalan proper names; keep them as is. No i18n routing                                                                                                                                                                                              |
 
 ## Design direction
@@ -90,6 +90,8 @@ Notes:
 │   ├── lib/sanity/       # client, GROQ queries, image URL helper, TS types
 │   ├── pages/            # routes (see site map)
 │   └── styles/           # tokens.css (custom properties), global.css (reset/base)
+├── scripts/              # dev-only tools (not part of the site, excluded from astro check)
+├── migration/            # gitignored output of the Framer inventory
 └── studio/               # Sanity Studio (separate package, deployed to *.sanity.studio)
 ```
 
@@ -143,6 +145,8 @@ pnpm preview
 pnpm check     # astro check (type-check)
 pnpm format    # Prettier
 pnpm format:check
+pnpm inventory              # dev-only: snapshot of the Framer site → migration/ (spec 001)
+pnpm inventory:screenshots  # dev-only: reference screenshots → migration/screenshots
 ```
 
 ## Conventions
