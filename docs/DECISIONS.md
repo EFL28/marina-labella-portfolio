@@ -75,3 +75,9 @@ Why: everything stays documented, and Elian learns Astro by building. Specs live
 
 **A contact form only on the About page. Everywhere else: email + socials.**
 Why: the Phase 1 inventory showed the current site has a form on several pages, and Elian wants to keep it on About only. The backend gets chosen in the About page's spec, with the constraints free and no lock-in. Candidates: a Cloudflare Pages Function / Worker that sends the email, or a free form service (e.g. Web3Forms). Spam protection has to be included (honeypot, or Cloudflare Turnstile, which is free).
+
+### ADR-015 · 2026-11-01 · Accepted
+
+**One branch per spec. `main` only receives finished, checked work.**
+Branch name: `feat/NNN-short-name` (e.g. `feat/002-design-system`). It's merged into `main` once the spec is Done and `pnpm check`, `pnpm format:check` and `pnpm build` pass. `feat/framer-copy-layout` is an earlier experiment by Elian: keep it, don't modify it, don't build on it.
+Why: `main` stays deployable (Cloudflare will build from it), and each spec's work is easy to review.

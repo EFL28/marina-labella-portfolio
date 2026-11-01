@@ -1,0 +1,164 @@
+/*
+ * Design tokens (spec 002). Custom properties only: no selectors except :root.
+ * Components must use the SEMANTIC tokens (section 2+), never the raw palette.
+ *
+ * Breakpoints (custom properties can't be used inside @media, so use these
+ * literal values in media queries):
+ *   tablet  810px   desktop 1200px   large 1800px
+ * Prefer fluid values (clamp) and container queries over breakpoints.
+ */
+
+:root {
+	/* -----------------------------------------------------------------------
+	 * 1. Raw palette, taken from the Framer site (Phase 1 inventory).
+	 *    Contrast of each colour: docs/specs/002-design-foundations.md → Notes.
+	 * --------------------------------------------------------------------- */
+
+	/* Neutrals */
+	--color-black: #0e0e0e;
+	--color-ink: #131014;
+	--color-slate: #2a3132;
+	--color-grey: #bababa; /* ⚠️ not for text on white: 1.94:1 */
+	--color-mist: #f2f2f2;
+	--color-white: #ffffff;
+
+	/* Reds and oranges */
+	--color-red: #b80d07;
+	--color-orange: #f44d01;
+	--color-rust: #cc4824;
+	--color-burgundy: #75213b;
+
+	/* Blues and violets */
+	--color-periwinkle: #8e9cff;
+	--color-indigo: #7081ff;
+	--color-blue: #5f94de;
+	--color-navy: #001666;
+
+	/* Greens */
+	--color-teal: #00a897;
+	--color-aqua: #1cc0af;
+	--color-green: #a6ce4b;
+	--color-lime: #e8fa9b;
+
+	/* Soft backgrounds */
+	--color-cream: #ffeecf;
+	--color-pink: #f2eaef;
+
+	/* -----------------------------------------------------------------------
+	 * 2. Semantic colours: what components use.
+	 * --------------------------------------------------------------------- */
+
+	--color-text: var(--color-black);
+	/* Improvement over Framer: its muted text was #bababa (1.94:1, fails AA).
+	   #666 passes AA on every light surface (white 5.7, mist 5.1, cream 5.0, pink 4.9). */
+	--color-text-muted: #666666;
+	--color-bg: var(--color-white);
+	--color-border: var(--color-grey);
+	/* Focus ring: orange is ≥ 3:1 against both white (3.55) and black (5.43). */
+	--color-focus: var(--color-orange);
+	--color-selection: var(--color-lime);
+
+	/* Surfaces Marina can pick for a block in Sanity (ADR-009): a finite list.
+	   Each surface has its text colour ("on-surface") that passes AA.
+	   A block sets  --color-text: var(--color-on-surface-<name>)  and its
+	   children follow, because custom properties inherit. */
+	--color-surface-white: var(--color-white);
+	--color-on-surface-white: var(--color-black);
+	--color-surface-mist: var(--color-mist);
+	--color-on-surface-mist: var(--color-black);
+	--color-surface-cream: var(--color-cream);
+	--color-on-surface-cream: var(--color-black);
+	--color-surface-pink: var(--color-pink);
+	--color-on-surface-pink: var(--color-black);
+	--color-surface-lime: var(--color-lime);
+	--color-on-surface-lime: var(--color-black);
+	--color-surface-periwinkle: var(--color-periwinkle);
+	--color-on-surface-periwinkle: var(--color-black);
+	--color-surface-green: var(--color-green);
+	--color-on-surface-green: var(--color-black);
+	--color-surface-teal: var(--color-teal);
+	--color-on-surface-teal: var(--color-black);
+	--color-surface-orange: var(--color-orange);
+	--color-on-surface-orange: var(--color-black);
+	/* Improvement over Framer: its red cards used dark text (2.85:1, fails AA). */
+	--color-surface-red: var(--color-red);
+	--color-on-surface-red: var(--color-white);
+	--color-surface-navy: var(--color-navy);
+	--color-on-surface-navy: var(--color-white);
+	--color-surface-black: var(--color-black);
+	--color-on-surface-black: var(--color-white);
+
+	/* -----------------------------------------------------------------------
+	 * 3. Typography.
+	 * --------------------------------------------------------------------- */
+
+	/* --font-inter is created by Astro's Fonts API (T8). Until then, and as a
+	   safety net, fall back to the system UI font. */
+	--font-sans: var(--font-inter, system-ui), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+	/* Fluid type scale, Utopia formula: 390px → 1440px viewport,
+	   16px @ ratio 1.2 (mobile) → 18px @ ratio 1.25 (desktop).
+	   Framer reference sizes: 12, 16, 19–24, 28–30, 36–40, 52, 64–72 px. */
+	--step--2: clamp(0.6944rem, 0.685rem + 0.0389vw, 0.72rem); /* 11.1 → 11.5px */
+	--step--1: clamp(0.8333rem, 0.8086rem + 0.1016vw, 0.9rem); /* 13.3 → 14.4px */
+	--step-0: clamp(1rem, 0.9536rem + 0.1905vw, 1.125rem); /* 16 → 18px: body */
+	--step-1: clamp(1.2rem, 1.1234rem + 0.3143vw, 1.4062rem); /* 19.2 → 22.5px */
+	--step-2: clamp(1.44rem, 1.322rem + 0.4843vw, 1.7578rem); /* 23 → 28.1px */
+	--step-3: clamp(1.728rem, 1.5537rem + 0.7151vw, 2.1973rem); /* 27.6 → 35.2px */
+	--step-4: clamp(2.0736rem, 1.8236rem + 1.0255vw, 2.7466rem); /* 33.2 → 43.9px */
+	--step-5: clamp(2.4883rem, 2.1374rem + 1.4399vw, 3.4332rem); /* 39.8 → 54.9px */
+	--step-6: clamp(2.986rem, 2.5011rem + 1.9894vw, 4.2915rem); /* 47.8 → 68.7px */
+
+	/* Giant footer name ("MARINA LABELLA"): sized to the viewport width so it
+	   always spans the page, as on Framer (~140px at 1440px). */
+	--font-size-display: clamp(2.25rem, 9.6vw, 9rem);
+
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	--leading-none: 1;
+	--leading-tight: 1.1; /* big headings */
+	--leading-snug: 1.2; /* small headings */
+	--leading-normal: 1.4; /* body, as on Framer */
+
+	--tracking-tighter: -0.04em; /* display */
+	--tracking-tight: -0.02em; /* headings */
+	--tracking-snug: -0.01em;
+	--tracking-normal: 0;
+
+	/* -----------------------------------------------------------------------
+	 * 4. Space, radius, layout, motion.
+	 * --------------------------------------------------------------------- */
+
+	/* Fluid space scale (Utopia), same viewports, based on 16 → 18px. */
+	--space-3xs: clamp(0.25rem, 0.2384rem + 0.0476vw, 0.2812rem); /* 4px */
+	--space-2xs: clamp(0.5rem, 0.4768rem + 0.0952vw, 0.5625rem); /* 8 → 9px */
+	--space-xs: clamp(0.75rem, 0.7152rem + 0.1429vw, 0.8438rem); /* 12 → 14px */
+	--space-s: clamp(1rem, 0.9536rem + 0.1905vw, 1.125rem); /* 16 → 18px */
+	--space-m: clamp(1.5rem, 1.4304rem + 0.2857vw, 1.6875rem); /* 24 → 27px */
+	--space-l: clamp(2rem, 1.9071rem + 0.381vw, 2.25rem); /* 32 → 36px */
+	--space-xl: clamp(3rem, 2.8607rem + 0.5714vw, 3.375rem); /* 48 → 54px */
+	--space-2xl: clamp(4rem, 3.8143rem + 0.7619vw, 4.5rem); /* 64 → 72px */
+	--space-3xl: clamp(6rem, 5.7214rem + 1.1429vw, 6.75rem); /* 96 → 108px */
+
+	/* Radii seen on Framer */
+	--radius-s: 0.625rem; /* 10px */
+	--radius-m: 1rem; /* 16px: images, cards */
+	--radius-l: 1.5rem; /* 24px */
+	--radius-xl: 2.5rem; /* 40px: service cards */
+	--radius-pill: 999px; /* buttons, tags */
+
+	/* Layout */
+	--layout-max: 87.5rem; /* 1400px content width */
+	--layout-gutter: clamp(1.25rem, 0.7857rem + 1.9048vw, 2.5rem); /* side padding 20 → 40px */
+	--layout-prose: 65ch; /* comfortable line length for paragraphs */
+
+	/* Motion: global.css turns these to ~0 when the user prefers reduced motion */
+	--duration-fast: 150ms;
+	--duration-base: 300ms;
+	--duration-slow: 600ms;
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

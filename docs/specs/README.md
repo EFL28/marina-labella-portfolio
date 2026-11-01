@@ -6,9 +6,9 @@ Every feature starts as a spec: a short Markdown document that we write and appr
 
 1. **Draft:** copy [`_template.md`](_template.md) to `NNN-short-name.md` (next free number) and fill in Goal, Requirements and Acceptance criteria.
 2. **Review:** Elian (and Marina, if it touches content or design) reads the draft. Open questions get answered in the doc.
-3. **Approved:** set `Status: Approved`, then add the Design and Tasks sections.
+3. **Approved:** set `Status: Approved`, add the Design and Tasks sections, and create the branch `feat/NNN-short-name` (ADR-015).
 4. **In progress:** implement task by task, ticking boxes as you go. If reality differs from the spec, **update the spec first**.
-5. **Done:** every acceptance criterion is checked, `pnpm check`, `pnpm format:check` and `pnpm build` pass, and the entry in [`../LOG.md`](../LOG.md) is written. Set `Status: Done`.
+5. **Done:** every acceptance criterion is checked, `pnpm check`, `pnpm format:check` and `pnpm build` pass, and the entry in [`../LOG.md`](../LOG.md) is written. Set `Status: Done` and merge the branch into `main`.
 
 Statuses: `Draft` → `Approved` → `In progress` → `Done` (or `Dropped`, with a reason).
 
@@ -22,6 +22,7 @@ Elian writes most of the code and is learning Astro along the way. Each task is 
 
 ## Index
 
-| #   | Spec                                        | Phase | Status |
-| --- | ------------------------------------------- | ----- | ------ |
-| 001 | [Framer inventory](001-framer-inventory.md) | 1     | Done   |
+| #   | Spec                                            | Phase | Status      |
+| --- | ----------------------------------------------- | ----- | ----------- |
+| 001 | [Framer inventory](001-framer-inventory.md)     | 1     | Done        |
+| 002 | [Design foundations](002-design-foundations.md) | 2     | In progress |

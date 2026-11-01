@@ -147,11 +147,14 @@ pnpm format    # Prettier
 pnpm format:check
 pnpm inventory              # dev-only: snapshot of the Framer site → migration/ (spec 001)
 pnpm inventory:screenshots  # dev-only: reference screenshots → migration/screenshots
+# any site/paths, e.g. QA of the local build (Git Bash: prefix MSYS_NO_PATHCONV=1):
+pnpm inventory:screenshots --base http://localhost:4321 --out migration/local /styleguide
 ```
 
 ## Conventions
 
 - Components: `PascalCase.astro`. Utilities: `camelCase.ts`. Routes and CSS custom properties: `kebab-case`.
+- Variables and data: `camelCase` (`nav`, `socials`). **Module-level constants holding a single primitive value** (string/number) that acts as configuration: `UPPER_SNAKE_CASE` (`EMAIL`). Types and interfaces: `PascalCase`.
 - Keep components small and presentational. Data fetching happens in pages/layouts via `src/lib/sanity/`.
 - Design tokens (colours, type scale, spacing, radii, durations) live in `src/styles/tokens.css`. **Don't hard-code values that should be tokens.**
 - Prefer modern CSS (nesting, `clamp()`, container queries, `:has()`, logical properties) and stay within Baseline-supported features.
@@ -162,7 +165,7 @@ pnpm inventory:screenshots  # dev-only: reference screenshots → migration/scre
 
 - Ask before adding any dependency, paid service or new third-party script.
 - Ask before changing the content model once Marina has started entering content, because schema changes may need migrations.
-- Don't commit or push unless asked.
+- **Git:** one branch per spec, `feat/NNN-short-name` (ADR-015). Never work directly on `main`, and don't touch `feat/framer-copy-layout`. Don't commit or push unless asked.
 - Run `pnpm check`, `pnpm format:check` and `pnpm build` before calling a task done, and report failures honestly.
 - When something here is outdated or wrong, update this file in the same change.
 - Don't create other "memory" or notes files. Lasting knowledge goes in `docs/LOG.md` (learnings) or `docs/DECISIONS.md` (decisions).

@@ -2,6 +2,8 @@
 // Drives the locally installed Chrome over the DevTools protocol: no npm deps.
 //
 //   pnpm inventory:screenshots
+//   pnpm inventory:screenshots --base http://localhost:4321 --out migration/local /styleguide /
+//     (any site: base URL, output folder, and the paths to capture)
 //
 // Set CHROME_PATH if Chrome isn't in the default Windows location.
 
@@ -11,8 +13,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-const SITE = 'https://www.marinalabella.com';
-const OUT_DIR = join('migration', 'screenshots');
+const args = process.argv.slice(2);
+const flag = (name: string) => {
+	const i = args.indexOf(`--${name}`);
+	return i >= 0 ? args.splice(i, 2)[1] : undefined;
+};
+const SITE = flag('base') ?? 'https://www.marinalabella.com';
+const OUT_DIR = flag('out') ?? join('migration', 'screenshots');
 const PORT = 9333;
 const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 
@@ -177,7 +184,10 @@ async function main() {
 		const cdp = await Cdp.connect(page.webSocketDebuggerUrl);
 		await cdp.send('Page.enable');
 
-		for (const [name, path] of PAGES) {
+		const pages: [string, string][] = args.length
+			? args.map((p) => [p.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home', p])
+			: PAGES;
+		for (const [name, path] of pages) {
 			for (const vp of VIEWPORTS) {
 				const file = join(OUT_DIR, `${name}-${vp.name}.jpg`);
 				await writeFile(file, await capture(cdp, SITE + path, vp));

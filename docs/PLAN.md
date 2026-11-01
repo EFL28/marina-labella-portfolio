@@ -50,8 +50,8 @@ Living document. Tick items as they land and update this file in the same change
 
 - 🟡 **"PREVIOUS" on the 6 case studies is broken in the server HTML** (`../illustration/:w0K4L5pzB`, an unresolved Framer CMS variable). Framer's JavaScript fixes it in the browser, so visitors don't notice (checked by Elian), but crawlers and no-JS clients get a broken link. Our own prev/next won't have this problem.
 - 🟠 **Alt text missing on 546 of 556 images.** It has to be written during the import (Phase 4), and the schema will require it.
-- 🟡 3 illustration projects **have pages but aren't in the `/illustration` grid** (33 tiles), so they can only be reached through prev/next of other projects: `depression`, `love-vs.-time`, `the-animal-in-me`. Ask Marina whether leaving them out of the gallery is intentional.
-- 🟡 Typo "Visual **Indentity**": a tag pill in the home's "How can I help you?" section, and in the service tags on the service pages (e.g. `/branding-packaging`).
+- 🟡 3 illustration projects **have pages but aren't in the `/illustration` grid** (33 tiles): `depression`, `love-vs.-time`, `the-animal-in-me`. This is **an oversight** (confirmed by Elian): **all 36 must appear in the new gallery.**
+- 🟡 Typo "Visual **Indentity**" → **fix to "Visual Identity"** in the import. It appears (a) on the home, as a black tag pill in the "How can I help you?" section (bottom left, next to PACKAGING; crop in `migration/screenshots/typo-visual-indentity.jpg`), and (b) on `/branding-packaging`, in the list of service tags under the intro.
 - 🟡 `/services/aftertone-soda` is titled "Animalium Beers" (ADR-010: kept for now). `love-vs.-time` has a dot in the slug.
 - 🟡 `glow-gang` appears both as `/illustration/glow-gang` and `/services/glow-gang-branding`.
 - 🟡 Page titles are inconsistent ("Marina Labella - Animation Portfolio" on service pages).
@@ -59,11 +59,13 @@ Living document. Tick items as they land and update this file in the same change
 **⚠️ Conflicts with our decisions (ask Marina)**
 
 - ~~Contact form~~ → resolved by **ADR-014**: the form stays **only on About**. Home and service pages get email + socials.
-- ~~Behance icon~~ → false alarm: a Framer layer _named_ "Behance…" is actually the Vimeo icon. Socials are Instagram, LinkedIn and Vimeo.
+- Behance: the Framer layer _named_ "Behance…" is actually the Vimeo icon, so Framer never linked Behance. But Marina **does** have a profile (`behance.net/marinalabella`, verified 2026-11-01), and **the new site shows it** (Elian). Socials: Instagram, LinkedIn, Vimeo, Behance.
 
 ## Phase 2: Design system
 
 **Goal:** tokens and base components that reproduce the Framer look, with improvements.
+
+**Specs:** [002: Design foundations](specs/002-design-foundations.md) (tokens, font, global CSS, layout, header, footer, styleguide). Spec 003 covers the content components (cards, grid, image, video, prev/next, CTA).
 
 - [ ] Extract colours, type scale, spacing, radii, breakpoints and motion timings from the Framer CSS into `src/styles/tokens.css`
 - [ ] Self-host Inter 4 variable (`wght` + `opsz`), subset to Latin + Latin Extended, and preload it
@@ -95,6 +97,7 @@ Living document. Tick items as they land and update this file in the same change
 - [ ] Script that turns `inventory.json` into Sanity documents (map texts to blocks, keep the original slugs, set the order). Images: Framer URLs or placeholders for now, replaced with Marina's originals before launch
 - [ ] Run it on a test dataset first, check, then run it on `production`
 - [ ] Manual pass: alt texts (missing on Framer), anything the script couldn't map
+- [ ] Apply the Phase 1 content fixes: "Visual Identity" typo, and include `depression`, `love-vs.-time` and `the-animal-in-me` in the illustration gallery
 - [ ] Marina reviews every project in the Studio
 
 ## Phase 5: Pages (vertical slices)

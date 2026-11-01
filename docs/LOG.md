@@ -23,7 +23,8 @@ Progress and learnings, newest first. One entry per work session or finished spe
 **Next**
 
 - 👤 Elian: skim `migration/summary.md` and the screenshots.
-- Ask Marina: the 3 illustrations missing from the gallery, and the "Indentity" typo.
+- ~~Ask Marina~~ Elian confirmed that the 3 illustrations missing from the gallery are an oversight (they must be listed) and the typo gets fixed. Both are noted in PLAN Phase 4.
+- From now on, work happens on **one branch per spec** (ADR-015). `feat/framer-copy-layout` is an older experiment: leave it untouched.
 - Spec 002: design system (Phase 2). This is where Elian starts writing Astro.
 
 ## 2026-10-31: Project base
